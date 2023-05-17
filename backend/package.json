@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/titusdishon/supply-chain-manager/issues"
   },
-  "homepage": "https://github.com/titusdishon/supply-chain-manager#readme"
+  "homepage": "https://github.com/titusdishon/supply-chain-manager#readme",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
 }
