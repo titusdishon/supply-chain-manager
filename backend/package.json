@@ -4,6 +4,8 @@
   "description": "Backend directory for the supply chain management application",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
     "test": "test"
   },
   "repository": {
@@ -26,6 +28,7 @@
   },
   "homepage": "https://github.com/titusdishon/supply-chain-manager#readme",
   "devDependencies": {
+    "nodemon": "^2.0.22",
     "typescript": "^5.0.4"
   }
 }
