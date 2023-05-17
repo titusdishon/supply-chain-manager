@@ -57,19 +57,6 @@ export const updateProduct: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  try {
-    res.status(201).json({ message: "updated successfully " });
-  } catch (error) {
-    console.error("Error updating product:", error);
-    res.status(500).json({ error: "Error updating product" });
-  }
-};
-
-// Delete a product by ID
-export const deleteProduct: RequestHandler = async (
-  req: Request,
-  res: Response
-) => {
   const productId = req.params.id;
   const { productName, quantity, imageUrl, batchNumber } = req.body;
 
@@ -84,6 +71,28 @@ export const deleteProduct: RequestHandler = async (
 
       await product.save();
       res.json(product);
+    } else {
+      res.status(404).json({ error: "Product not found" });
+    }
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).json({ error: "Error updating product" });
+  }
+};
+
+// Delete a product by ID
+export const deleteProduct: RequestHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const productId = req.params.id;
+
+  try {
+    const product = await Product.findByPk(productId);
+
+    if (product) {
+      await product.destroy();
+      res.status(204).send();
     } else {
       res.status(404).json({ error: "Product not found" });
     }
