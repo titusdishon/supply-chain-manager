@@ -1,5 +1,6 @@
 import express from "express";
-import sequelize from "./database";
+import sequelize from "./database-connection";
+import Router from "./routes/routes";
 
 const app = express();
 
@@ -12,9 +13,7 @@ async function testDatabaseConnection() {
   }
 }
 
-app.get("/", (req, res) => {
-  res.send("Hello,, Init project works");
-});
+app.use("/", Router);
 
 const port = 8000;
 app.listen(port, () => {
