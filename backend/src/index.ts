@@ -1,5 +1,7 @@
-import express from "express";
-import sequelize from "./database";
+import express, { Request, Response, NextFunction } from "express";
+import sequelize from "./database-connection";
+import Router from "./routes/routes";
+import { json, urlencoded } from "body-parser";
 
 const app = express();
 
@@ -11,9 +13,15 @@ async function testDatabaseConnection() {
     console.error("Unable to connect to the database:", error);
   }
 }
-
-app.get("/", (req, res) => {
-  res.send("Hello,, Init project works");
+app.use(json());
+app.use(
+  urlencoded({
+    extended: true,
+  })
+);
+app.use("/", Router);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({ message: err.message });
 });
 
 const port = 8000;
