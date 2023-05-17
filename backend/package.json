@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend directory for the supply chain management application",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/titusdishon/supply-chain-manager.git"
+  },
+  "keywords": [
+    "Typescript",
+    "Nodejs",
+    "Expressjs",
+    "Supply",
+    "chain",
+    "management",
+    "inventory"
+  ],
+  "author": "TITUS DISHON",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/titusdishon/supply-chain-manager/issues"
+  },
+  "homepage": "https://github.com/titusdishon/supply-chain-manager#readme"
+}
