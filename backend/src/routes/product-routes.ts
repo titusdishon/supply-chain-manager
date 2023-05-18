@@ -6,17 +6,18 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controllers/product-controllers";
+import { authenticate } from "../utils/auth-middlewares";
 
 const productRouter = express.Router();
 
-productRouter.post("/", createProduct);
+productRouter.post("/", authenticate, createProduct);
 
 productRouter.get("/:id", getProductById);
 
 productRouter.get("/", getAllProducts);
 
-productRouter.put("/:id", updateProduct);
+productRouter.put("/:id", authenticate, updateProduct);
 
-productRouter.delete("/:id", deleteProduct);
+productRouter.delete("/:id", authenticate, deleteProduct);
 
 export default productRouter;
