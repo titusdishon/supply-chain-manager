@@ -11,7 +11,7 @@ app.use(
     extended: true,
   })
 );
-app.use("/", Router);
+app.use("", Router);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: err.message });
 });

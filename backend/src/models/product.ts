@@ -1,10 +1,17 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import sequelize from "../database-connection";
 
+enum Currency {
+  PENDING = "USD",
+  POUND = "GBP",
+  EURO = "EURO",
+}
 interface ProductAttributes {
   id: number;
   productName: string;
   quantity: number;
+  price: number;
+  currency: Currency;
   imageUrl: string;
   batchNumber: string;
   createdAt?: Date;
@@ -15,6 +22,8 @@ class Product extends Model<ProductAttributes> implements ProductAttributes {
   public id!: number;
   public productName!: string;
   public quantity!: number;
+  public price!: number;
+  public currency!: Currency;
   public imageUrl!: string;
   public batchNumber!: string;
   public createdAt?: Date;
@@ -34,6 +43,14 @@ Product.init(
     },
     quantity: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    currency: {
+      type: DataTypes.ENUM(...Object.values(Currency)),
       allowNull: false,
     },
     imageUrl: {
