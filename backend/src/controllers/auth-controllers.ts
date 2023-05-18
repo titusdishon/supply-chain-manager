@@ -93,7 +93,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Invalid username or password" });
     }
 
-    const token = await generateToken({
+    const token = generateToken({
       id: user.id,
       username: user.username,
       role: user.role,
