@@ -1,5 +1,12 @@
 import express from "express";
 import {
+  getAllOrders,
+  getOrderById,
+  createOrder,
+  updateOrderProgress,
+  updateOrder,
+} from "../controllers/order-controller";
+import {
   createProduct,
   getProductById,
   getAllProducts,
@@ -7,16 +14,25 @@ import {
   deleteProduct,
 } from "../controllers/product-controllers";
 
-const Router = express.Router();
+const router = express.Router();
 
-Router.post("/products", createProduct);
+router.get("/orders", getAllOrders);
 
-Router.get("/products/:id", getProductById);
+router.get("/orders/:id", getOrderById);
+router.put("/orders/:id", updateOrder);
 
-Router.get("/products", getAllProducts);
+router.post("/orders/", createOrder);
 
-Router.put("/products/:id", updateProduct);
+router.put("/orders-progress/:id", updateOrderProgress);
 
-Router.delete("/products/:id", deleteProduct);
+router.post("/products", createProduct);
 
-export default Router;
+router.get("/products/:id", getProductById);
+
+router.get("/products", getAllProducts);
+
+router.put("/products/:id", updateProduct);
+
+router.delete("/products/:id", deleteProduct);
+
+export default router;
