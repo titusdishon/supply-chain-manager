@@ -36,7 +36,8 @@ export const createProduct: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  const { productName, quantity, imageUrl, batchNumber } = req.body;
+  const { productName, quantity, imageUrl, batchNumber, price, currency } =
+    req.body;
 
   try {
     const product = await Product.create<any>({
@@ -44,6 +45,8 @@ export const createProduct: RequestHandler = async (
       quantity,
       imageUrl,
       batchNumber,
+      price,
+      currency,
     });
 
     res.status(201).json(product);
@@ -58,7 +61,8 @@ export const updateProduct: RequestHandler = async (
   res: Response
 ) => {
   const productId = req.params.id;
-  const { productName, quantity, imageUrl, batchNumber } = req.body;
+  const { productName, quantity, imageUrl, batchNumber, price, currency } =
+    req.body;
 
   try {
     const product = await Product.findByPk(productId);
@@ -68,6 +72,8 @@ export const updateProduct: RequestHandler = async (
       product.quantity = quantity;
       product.imageUrl = imageUrl;
       product.batchNumber = batchNumber;
+      product.price = price;
+      product.currency = currency;
 
       await product.save();
       res.json(product);
