@@ -1,20 +1,29 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database-connection";
-import Product from "./product";
+import { Currency } from "./product";
 
 enum OrderStatus {
   PENDING = "pending",
   IN_PROGRESS = "in_progress",
   FULFILLED = "fulfilled",
 }
-
-interface OrderAttributes {
+export interface OrderedProduct {
   id: number;
+  productName: string;
+  quantity: number;
+  price: number;
+  currency: Currency;
+  imageUrl: string;
+  batchNumber: string;
+}
+
+export interface OrderAttributes {
+  id?: number;
   status: OrderStatus;
   customerName: string;
   customerEmail: string;
-  quantity: number;
   address: string;
+  products?: OrderedProduct[]; // Embedded products
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -25,15 +34,9 @@ class Order extends Model<OrderAttributes> implements OrderAttributes {
   public customerName!: string;
   public customerEmail!: string;
   public address!: string;
-  public quantity!: number;
-  public readonly products?: Product[];
+  public products?: OrderedProduct[];
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-
-  public addProduct!: (product: Product) => Promise<void>;
-  public addProducts!: (products: Product[]) => Promise<void>;
-  public removeProduct!: (product: Product) => Promise<void>;
-  public removeProducts!: () => Promise<void>;
 }
 
 Order.init(
@@ -59,9 +62,9 @@ Order.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    products: {
+      type: DataTypes.JSONB,
+      defaultValue: [],
     },
   },
   {
@@ -69,11 +72,5 @@ Order.init(
     sequelize,
   }
 );
-
-Order.belongsToMany(Product, {
-  through: "OrderProduct",
-  foreignKey: "orderId",
-  as: "products",
-});
 
 export default Order;
