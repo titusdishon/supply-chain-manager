@@ -1,12 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../database-connection";
 
-enum Currency {
+export enum Currency {
   PENDING = "USD",
   POUND = "GBP",
   EURO = "EURO",
 }
-interface ProductAttributes {
+export interface ProductAttributes {
   id: number;
   productName: string;
   quantity: number;
