@@ -10,6 +10,6 @@ const authRouter = express.Router();
 
 authRouter.post("/register", registerUser);
 authRouter.post("/login", login);
-authRouter.post("/update-user", authenticate, updateUser);
+authRouter.put("/update/:id", authenticate, updateUser);
 
 export default authRouter;
