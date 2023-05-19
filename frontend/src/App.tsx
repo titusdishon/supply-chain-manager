@@ -1,24 +1,20 @@
-import { useForm } from "react-hook-form";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./components/auth/login";
+import Registration from "./components/auth/register";
+import store from "./redux/store/store";
+import { Provider } from "react-redux";
 
-function App() {
-  const { register, handleSubmit } = useForm();
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
-
+const App = () => {
   return (
-    <div className="max-w-md mx-auto mt-8">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="name">Name:</label>
-        <input id="name" {...register("name")} className="border" />
-
-        <button type="submit" className="mt-4 bg-blue-500 text-white px-4 py-2">
-          Submit
-        </button>
-      </form>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Registration />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
-}
+};
 
 export default App;

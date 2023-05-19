@@ -4,13 +4,15 @@ import orderRouter from "./routes/order-routes";
 import productRouter from "./routes/product-routes";
 import authRouter from "./routes/auth-routes";
 import { json, urlencoded } from "body-parser";
-
+import cors from "cors";
 export async function createApp(db: Sequelize, port: number): Promise<Express> {
   const app: Express = express();
 
   // Middleware
   app.use(json());
   app.use(urlencoded({ extended: true }));
+
+  app.use(cors());
 
   // Routes
   app.use("/orders/", orderRouter);
