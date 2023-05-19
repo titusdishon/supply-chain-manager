@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../database-connection";
 
 export enum Currency {
-  PENDING = "USD",
+  USD = "USD",
   POUND = "GBP",
   EURO = "EURO",
 }

@@ -5,7 +5,7 @@ import Product from "../models/product";
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const products = await Product.findAll();
-    res.status(200).json({ message: "get all products ", data: products });
+    res.status(200).json({ message: "success", data: products });
   } catch (error) {
     res.status(500).json({ error: "Error retrieving products" });
   }
@@ -16,12 +16,15 @@ export const getProductById: RequestHandler = async (
   req: Request,
   res: Response
 ) => {
-  const productId = req.params.id;
+  const { id } = req.params;
+  if (id === undefined) {
+    return res.status(400).json({ error: "bad request" });
+  }
 
   try {
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(id);
     if (product) {
-      res.json(product);
+      res.status(200).json(product);
     } else {
       res.status(404).json({ error: "Product not found" });
     }
@@ -39,6 +42,16 @@ export const createProduct: RequestHandler = async (
   const { productName, quantity, imageUrl, batchNumber, price, currency } =
     req.body;
 
+  if (
+    productName === undefined ||
+    quantity === undefined ||
+    imageUrl === undefined ||
+    batchNumber === undefined ||
+    price === undefined ||
+    currency === undefined
+  ) {
+    return res.status(400).json({ error: "bad request" });
+  }
   try {
     const product = await Product.create<any>({
       productName,

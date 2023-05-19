@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import request from "supertest";
 import { UserRole } from "../../models/user";
+import crypto from "crypto";
 
 interface IUserLogin {
   username?: string;
@@ -13,8 +14,8 @@ interface IUserRegister {
   isActive?: boolean;
   role?: UserRole;
 }
-const baseURL = "http://localhost:8000";
-let req: request.SuperTest<request.Test> = request(baseURL);
+export const baseURL = "http://localhost:8000";
+export const req: request.SuperTest<request.Test> = request(baseURL);
 
 export const loginUser = async ({
   username,
@@ -49,4 +50,21 @@ export const updateUser = async (
     .set("Authorization", `Bearer ${token}`)
     .send({ username, password, email, isActive, role });
   return response;
+};
+
+export const createAndLoginUser = async (): Promise<string> => {
+  const user: IUserRegister = {
+    username: crypto.randomBytes(6).toString("hex"),
+    password: "geek36",
+    email: `${crypto.randomBytes(6).toString("hex")}@gmail.com`,
+    isActive: true,
+    role: UserRole.ADMIN,
+  };
+  await createUser(user);
+  const loginResponse: any = await loginUser({
+    username: user.username,
+    password: user.password,
+  });
+  const { token } = loginResponse.body;
+  return token;
 };

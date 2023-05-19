@@ -41,9 +41,9 @@ describe("User controller", () => {
       const response: any = await createUser(user);
       expect(response.status).toBe(409);
     });
-    it("Should return 500 and empty user is passed ", async () => {
+    it("Should return 400 if an empty user is passed ", async () => {
       const response: any = await createUser({});
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
     });
   });
 });

@@ -5,7 +5,15 @@ import { generateToken } from "../utils/auth-middlewares";
 
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, email, role, isActive } = req.body;
-
+  if (
+    username === undefined ||
+    password === undefined ||
+    email === undefined ||
+    role === undefined ||
+    isActive === undefined
+  ) {
+    return res.status(400).json({ error: "bad request" });
+  }
   try {
     const existingUser = await User.findOne({ where: { email } });
 
@@ -33,8 +41,17 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { username, password, email, role }: UserAttributes = req.body;
 
+  const { username, password, email, role }: UserAttributes = req.body;
+  if (
+    username === undefined ||
+    password === undefined ||
+    email === undefined ||
+    role === undefined ||
+    id === undefined
+  ) {
+    return res.status(400).json({ error: "bad request" });
+  }
   try {
     const userToUpdate = await User.findByPk(id);
     if (!userToUpdate) {
@@ -64,7 +81,9 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
-
+  if (id === undefined) {
+    return res.status(400).json({ error: "bad request" });
+  }
   try {
     const user = await User.findByPk(id);
     if (!user) {
@@ -80,7 +99,9 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
-
+  if (username === undefined || password === undefined) {
+    return res.status(400).json({ error: "bad request" });
+  }
   try {
     const user = await User.findOne({ where: { username } });
     if (!user) {
