@@ -55,9 +55,9 @@ describe("User Login controller", () => {
       expect(response.status).toBe(401);
     });
 
-    it("Should return 500 if username and password not provided ", async () => {
+    it("Should return 400 if username and password not provided ", async () => {
       const response: any = await loginUser({});
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
     });
   });
 });
