@@ -21,6 +21,12 @@ services:
       - ./backend:/usr/src/app
     depends_on:
       - tlp-database
+  tpl-frontend:
+    build:
+      context: .
+      dockerfile: fd.Dockerfile
+    ports:
+      - 3000:3000
 
 
 
