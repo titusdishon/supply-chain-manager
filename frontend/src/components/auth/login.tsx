@@ -23,10 +23,13 @@ const Login = () => {
     });
 
     try {
-      const response = await axios.post(`http://localhost:8000/auth/login`, {
-        username: data.username,
-        password: data.password,
-      });
+      const response: AxiosResponse = await axios.post(
+        `http://localhost:8000/auth/login`,
+        {
+          username: data.username,
+          password: data.password,
+        }
+      );
 
       localStorage.setItem("token", response.data.token);
 
