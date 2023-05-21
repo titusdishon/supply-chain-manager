@@ -7,9 +7,9 @@ interface IProps {
 }
 const PageWrapper = ({ title, children, createNewOnclick }: IProps) => {
   return (
-    <div className="flex w-full  h-screen overflow-auto">
+    <div className="flex w-full  h-screen overflow-auto -5">
       <Sidebar />
-      <div className="p-1 w-full overflow-auto">
+      <div className="p-1 w-full overflow-auto mx-5">
         <div className=" w-full">
           <h1 className="text-2xl font-semibold float-left">{title}</h1>
           <button
