@@ -97,6 +97,16 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.findAll();
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ error: "Error retrieving users" });
+  }
+};
+
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   if (username === undefined || password === undefined) {

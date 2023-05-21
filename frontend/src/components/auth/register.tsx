@@ -121,12 +121,6 @@ const Registration = () => {
         >
           Register
         </button>
-        <p className="mt-6">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-500 hover:underline">
-            Login
-          </Link>
-        </p>
       </form>
     </div>
   );
