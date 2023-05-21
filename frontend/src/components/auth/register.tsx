@@ -31,7 +31,7 @@ const Registration = () => {
     });
 
     try {
-      const response = await axios.post(
+      const response: AxiosResponse = await axios.post(
         `http://localhost:8000/auth/register`,
         data
       );
