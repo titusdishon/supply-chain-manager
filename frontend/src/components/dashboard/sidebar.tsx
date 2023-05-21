@@ -8,35 +8,63 @@ import {
   RiShoppingCartFill,
   RiLogoutBoxRFill,
 } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 interface Menu {
   title: string;
   icon: any;
+  onClick: (path: string) => void;
+  path: string;
 }
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+  const logout = (path: string) => {
+    localStorage.clear();
+    navigate(`/${path}`);
+  };
+  const routeChange = (path: string) => {
+    navigate(`/home${path}`);
+  };
   const Menus: Menu[] = [
+    {
+      title: "Home",
+      icon: RiProductHuntFill,
+      onClick: (path: string) => routeChange(path),
+      path: "",
+    },
     {
       title: "Products",
       icon: RiProductHuntFill,
+      onClick: (path: string) => routeChange(path),
+      path: "/products",
     },
     {
       title: "Orders",
       icon: RiShoppingCartFill,
+      onClick: (path: string) => routeChange(path),
+      path: "/orders",
     },
     {
       title: "Inventory",
       icon: RiFileListFill,
+      onClick: (path: string) => routeChange(path),
+      path: "/inventory",
     },
     {
       title: "Users",
       icon: RiTeamFill,
+      onClick: (path: string) => routeChange(path),
+      path: "/users",
     },
     {
       title: "Logout",
       icon: RiLogoutBoxRFill,
+      onClick: (path: string) => logout(path),
+      path: "login",
     },
   ];
+
   return (
     <div
       className={`bg-dark-purple h-screen p-5 pt-8 ${
@@ -69,9 +97,10 @@ const Sidebar = () => {
           <>
             <li
               key={index}
-              className={`text-grey-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md mt-2 ${
+              className={`text-grey-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md mt-2 transition-all duration-300 ${
                 !open && "w-10"
               }`}
+              onClick={() => menu.onClick(menu.path)}
             >
               <span className="text-2xl block float-left">
                 <menu.icon className={`text-white `} />

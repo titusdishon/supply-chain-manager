@@ -8,6 +8,9 @@ import {
 } from "../../redux/actions/user-actions";
 import axios, { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { ErrorAlert, SuccessAlert } from "../shared/alerts";
 
 type RegistrationFormData = {
   username: string;
@@ -18,6 +21,10 @@ type RegistrationFormData = {
 };
 
 const Registration = () => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -40,7 +47,15 @@ const Registration = () => {
         type: UserActionTypes.CREATE_USER_SUCCESS,
         payload: response.data,
       });
+      setSuccessMessage("Success! Your have been logged in.");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     } catch (error: any) {
+      setErrorMessage(
+        "Failed! We could not complete your request, try again later."
+      );
       dispatch<CreateUserFailureAction>({
         type: UserActionTypes.CREATE_USER_FAILURE,
         payload: error.message,
@@ -51,6 +66,8 @@ const Registration = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
+        {successMessage && <SuccessAlert message={successMessage} />}
+        {errorMessage && <ErrorAlert message={errorMessage} />}
         <h2 className="text-2xl font-bold mb-4">Registration</h2>
         <div className="mb-4">
           <label className="block mb-2">Username</label>
@@ -104,6 +121,12 @@ const Registration = () => {
         >
           Register
         </button>
+        <p className="mt-6">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   );

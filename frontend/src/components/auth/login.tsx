@@ -7,9 +7,16 @@ import {
   LoginFailureAction,
 } from "../../redux/actions/auth-actions";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { SuccessAlert, ErrorAlert } from "../shared/alerts";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const {
     register,
@@ -37,7 +44,14 @@ const Login = () => {
         type: AuthActionTypes.LOGIN_SUCCESS,
         payload: response.data.token,
       });
+
+      setSuccessMessage("Success! Your have been logged in.");
+
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
     } catch (error: any) {
+      setErrorMessage("Password/username is invalid");
       dispatch<LoginFailureAction>({
         type: AuthActionTypes.LOGIN_FAILURE,
         payload: error.message,
@@ -48,6 +62,8 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <form className="w-full max-w-sm" onSubmit={handleSubmit(onSubmit)}>
+        {successMessage && <SuccessAlert message={successMessage} />}
+        {errorMessage && <ErrorAlert message={errorMessage} />}
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <div className="mb-4">
           <label className="block mb-2">Username</label>
@@ -73,6 +89,12 @@ const Login = () => {
         >
           Login
         </button>
+        <p className="mt-6">
+          Do not have an account?{" "}
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Register
+          </Link>
+        </p>
       </form>
     </div>
   );
