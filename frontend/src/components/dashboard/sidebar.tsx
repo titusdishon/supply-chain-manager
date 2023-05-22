@@ -7,6 +7,7 @@ import {
   RiFileListFill,
   RiShoppingCartFill,
   RiLogoutBoxRFill,
+  RiHome8Fill,
 } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +30,7 @@ const Sidebar = () => {
   const Menus: Menu[] = [
     {
       title: "Home",
-      icon: RiProductHuntFill,
+      icon: RiHome8Fill,
       onClick: (path: string) => routeChange(path),
       path: "",
     },
