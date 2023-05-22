@@ -1,10 +1,17 @@
 import { Request, RequestHandler, Response } from "express";
 import Product from "../models/product";
+import { Op } from "sequelize";
 
 // Get all products
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.findAll();
+    const products = await Product.findAll({
+      where: {
+        quantity: {
+          [Op.gt]: 0,
+        },
+      },
+    });
     res.status(200).json({ message: "success", data: products });
   } catch (error) {
     res.status(500).json({ error: "Error retrieving products" });
