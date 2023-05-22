@@ -11,6 +11,8 @@ import {
 import { useDispatch } from "react-redux";
 import Table from "../../shared/table";
 import PageWrapper from "./page-wrapper";
+import { ErrorAlert } from "../../shared/alerts";
+import { useNavigate } from "react-router-dom";
 
 interface IProduct {
   batchNumber: string;
@@ -26,6 +28,7 @@ interface IProduct {
 const Products = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState<IProduct[] | null>(null);
+  const navigate = useNavigate();
 
   const columns: Column<IProduct>[] = [
     {
@@ -63,8 +66,8 @@ const Products = () => {
       Header: "Actions",
       Cell: () => (
         <div className="flex flex-row">
-          <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mx-4">
-            Edit
+          <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mx-4">
+            Delete
           </button>
           <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
             Edit
@@ -104,13 +107,15 @@ const Products = () => {
     };
   }, []);
 
+  const handleCreateNewClick = () => {
+    navigate("/home/create-products");
+  };
+
   return (
-    <PageWrapper
-      title="Products"
-      createNewOnclick={() => {
-        console.log("create new");
-      }}
-    >
+    <PageWrapper title="Products" createNewOnclick={handleCreateNewClick}>
+      {products && !products.length && (
+        <ErrorAlert message="There are no products found !" />
+      )}
       {products && <Table columns={columns} data={products} />}
     </PageWrapper>
   );

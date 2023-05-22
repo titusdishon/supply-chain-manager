@@ -14,10 +14,13 @@ export interface OrdersState {
 
 // products/types.ts
 export interface Product {
-  id: string;
-  name: string;
+  id?: string;
   price: number;
   quantity: number;
+  batchNumber: string;
+  currency: string;
+  imageUrl: string;
+  productName: string;
 }
 
 export interface ProductsState {
@@ -57,4 +60,9 @@ export enum UserRole {
   MANAGER = "manager",
   EMPLOYEE = "employee",
   USER = "user",
+}
+
+export enum CURRENCIES {
+  USD = "USD",
+  EURO = "EURO",
 }

@@ -12,6 +12,8 @@ import {
   UserActionTypes,
 } from "../../../redux/actions/user-actions";
 import PageWrapper from "./page-wrapper";
+import { ErrorAlert } from "../../shared/alerts";
+import { useNavigate } from "react-router-dom";
 interface IUser {
   status: boolean;
   username: string;
@@ -23,6 +25,7 @@ interface IUser {
 }
 const Users = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[] | null>(null);
 
   const columns: Column<IUser>[] = [
@@ -53,12 +56,14 @@ const Users = () => {
       Header: "Actions",
       Cell: () => (
         <div className="flex flex-row">
-          <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mx-4">
-            Edit
-          </button>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
-            Edit
-          </button>
+          <div className="flex flex-row">
+            <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mx-4">
+              Delete
+            </button>
+            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
+              Edit
+            </button>
+          </div>
         </div>
       ),
     },
@@ -99,13 +104,15 @@ const Users = () => {
     };
   }, []);
 
+  const handleCreateNewClick = () => {
+    navigate("/users/register");
+  };
+
   return (
-    <PageWrapper
-      title="Users"
-      createNewOnclick={() => {
-        console.log("create new");
-      }}
-    >
+    <PageWrapper title="Users" createNewOnclick={handleCreateNewClick}>
+      {users && !users.length && (
+        <ErrorAlert message="There are no registered users" />
+      )}
       {users && <Table columns={columns} data={users} />}
     </PageWrapper>
   );

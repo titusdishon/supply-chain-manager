@@ -25,6 +25,7 @@ export interface FetchProductsFailureAction {
 
 export interface AddProductRequestAction {
   type: ProductsActionTypes.ADD_PRODUCT_REQUEST;
+  payload: Product;
 }
 
 export interface AddProductSuccessAction {

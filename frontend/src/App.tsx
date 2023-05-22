@@ -9,6 +9,7 @@ import Products from "./components/dashboard/pages/products";
 import Inventory from "./components/dashboard/pages/inventory";
 import Users from "./components/dashboard/pages/users";
 import ProtectedRoute from "./utils/protected-routes";
+import CreateProduct from "./components/dashboard/pages/create-product";
 
 const App = () => {
   return (
@@ -16,14 +17,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/register"
-            element={
-              <ProtectedRoute>
-                <Registration />
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="/home"
             element={
@@ -49,6 +43,14 @@ const App = () => {
             }
           />
           <Route
+            path="/home/create-products"
+            element={
+              <ProtectedRoute>
+                <CreateProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/home/inventory"
             element={
               <ProtectedRoute>
@@ -61,6 +63,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Users />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users/register"
+            element={
+              <ProtectedRoute>
+                <Registration />
               </ProtectedRoute>
             }
           />

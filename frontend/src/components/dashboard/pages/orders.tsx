@@ -12,6 +12,7 @@ import {
   OrdersActionTypes,
 } from "../../../redux/actions/order-actions";
 import PageWrapper from "./page-wrapper";
+import { ErrorAlert } from "../../shared/alerts";
 
 interface IProduct {
   batchNumber: string;
@@ -68,8 +69,8 @@ const Orders = () => {
       Header: "Actions",
       Cell: () => (
         <div className="flex flex-row">
-          <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mx-4">
-            Edit
+          <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mx-4">
+            Delete
           </button>
           <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
             Edit
@@ -121,6 +122,9 @@ const Orders = () => {
         console.log("create new");
       }}
     >
+      {orders && !orders.length && (
+        <ErrorAlert message="There are no orders found!" />
+      )}
       {orders && <Table columns={columns} data={orders} />}
     </PageWrapper>
   );
