@@ -10,7 +10,7 @@ import { authenticate } from "../utils/auth-middlewares";
 
 const authRouter = express.Router();
 
-authRouter.post("/register", authenticate, registerUser);
+authRouter.post("/register", registerUser);
 authRouter.get("/users", authenticate, getAllUsers);
 authRouter.get("/users/:id", authenticate, getUserById);
 authRouter.post("/login", login);

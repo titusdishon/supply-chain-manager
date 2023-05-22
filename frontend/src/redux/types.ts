@@ -6,15 +6,14 @@ export interface Order {
   status: string;
 }
 
-export interface OrdersState {
-  orders: Order[];
-  loading: boolean;
+export interface CartState {
+  cart: Product[];
   error: string | null;
 }
 
 // products/types.ts
 export interface Product {
-  id?: string;
+  id?: number;
   price: number;
   quantity: number;
   batchNumber: string;
@@ -65,4 +64,10 @@ export enum UserRole {
 export enum CURRENCIES {
   USD = "USD",
   EURO = "EURO",
+}
+
+export enum OrderStatus {
+  PENDING = "pending",
+  IN_PROGRESS = "in_progress",
+  FULFILLED = "fulfilled",
 }

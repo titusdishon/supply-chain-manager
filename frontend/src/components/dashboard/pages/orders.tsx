@@ -2,15 +2,7 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Column } from "react-table";
 import dayjs from "dayjs";
-
-import { useDispatch } from "react-redux";
 import Table from "../../shared/table";
-import {
-  FetchOrdersFailureAction,
-  FetchOrdersRequestAction,
-  FetchOrdersSuccessAction,
-  OrdersActionTypes,
-} from "../../../redux/actions/order-actions";
 import PageWrapper from "./page-wrapper";
 import { ErrorAlert } from "../../shared/alerts";
 
@@ -34,7 +26,6 @@ interface IOrder {
   products: IProduct[];
 }
 const Orders = () => {
-  const dispatch = useDispatch();
   const [orders, setOrders] = useState<IOrder[] | null>(null);
 
   const columns: Column<IOrder>[] = [
@@ -69,9 +60,6 @@ const Orders = () => {
       Header: "Actions",
       Cell: () => (
         <div className="flex flex-row">
-          <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mx-4">
-            Delete
-          </button>
           <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
             Edit
           </button>
@@ -83,10 +71,6 @@ const Orders = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      dispatch<FetchOrdersRequestAction>({
-        type: OrdersActionTypes.FETCH_ORDERS_REQUEST,
-      });
-
       try {
         const response: AxiosResponse = await axios.get(
           `http://localhost:8000/orders`,
@@ -97,22 +81,16 @@ const Orders = () => {
           }
         );
         const { data } = response;
-        dispatch<FetchOrdersSuccessAction>({
-          type: OrdersActionTypes.FETCH_ORDERS_SUCCESS,
-          payload: response.data,
-        });
         setOrders(data);
       } catch (error: any) {
-        dispatch<FetchOrdersFailureAction>({
-          type: OrdersActionTypes.FETCH_ORDERS_FAILURE,
-          payload: error.message,
-        });
+        console.log("Orders not fetched");
       }
     };
 
     return () => {
       fetchOrders();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

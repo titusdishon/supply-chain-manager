@@ -16,36 +16,45 @@ export const createOrder = async (req: Request, res: Response) => {
     };
 
     if (orderedProducts && orderedProducts.length > 0) {
-      const productIds = orderedProducts.map(
-        (product: any) => product.productId
-      );
+      const productIds = orderedProducts.map((product: any) => product.id);
+      console.log("LEVEL----2", productIds);
 
       const existingProducts = await Product.findAll({
         where: { id: productIds },
       });
 
-      existingProducts.forEach((product: any) => {
-        const orderedProduct = orderedProducts.find(
-          (p: any) => p.productId === product.id
+      for (const orderedProduct of orderedProducts) {
+        const product = existingProducts.find(
+          (p: any) => p.id === orderedProduct.id
         );
 
-        if (orderedProduct && order) {
-          order.products?.push({
-            id: product.id,
-            price: product.price,
-            currency: product.currency,
-            imageUrl: product.imageUrl,
-            quantity: orderedProduct.quantity,
-            productName: product.productName,
-            batchNumber: product.batchNumber,
-          });
-        } else {
+        if (!product) {
           return res.status(404).json({
-            message: "Order c",
+            message: "Some products do not exist",
           });
         }
-      });
+
+        if (product.quantity < orderedProduct.quantity) {
+          return res.status(400).json({
+            message: "Insufficient quantity for some products",
+          });
+        }
+
+        order.products?.push({
+          id: product.id,
+          price: product.price,
+          currency: product.currency,
+          imageUrl: product.imageUrl,
+          quantity: orderedProduct.quantity,
+          productName: product.productName,
+          batchNumber: product.batchNumber,
+        });
+
+        product.quantity -= orderedProduct.quantity;
+        await product.save();
+      }
     }
+
     if (order.products?.length) {
       const createdOrder = await Order.create(order);
       return res.status(201).json({
@@ -54,7 +63,7 @@ export const createOrder = async (req: Request, res: Response) => {
       });
     } else {
       return res.status(404).json({
-        message: "Products specified do not exist",
+        message: "No valid products specified",
       });
     }
   } catch (error) {
@@ -62,11 +71,17 @@ export const createOrder = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error creating order" });
   }
 };
+
 // Update an order by ID
 export const updateOrder = async (req: Request, res: Response) => {
   const orderId = req.params.id;
-  const { status, customerName, customerEmail, address, orderedProducts } =
-    req.body;
+  const {
+    status,
+    customerName,
+    customerEmail,
+    address,
+    product: orderedProducts,
+  } = req.body;
 
   try {
     // Find the order by ID
@@ -86,13 +101,11 @@ export const updateOrder = async (req: Request, res: Response) => {
 
     if (orderedProducts && orderedProducts.length > 0) {
       const existingProducts = order.products;
-      console.log("LEVEL----1");
       if (existingProducts) {
         existingProducts.forEach((product: any) => {
           const orderedProduct = orderedProducts.find(
             (p: any) => p.id === product.id
           );
-          console.log("LEVEL----2", orderedProduct);
 
           if (orderedProduct) {
             tempProducts.push({

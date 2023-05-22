@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import User, { UserAttributes } from "../models/user";
 import { generateToken } from "../utils/auth-middlewares";

@@ -7,7 +7,7 @@ interface IProps {
 }
 const PageWrapper = ({ title, children, createNewOnclick }: IProps) => {
   return (
-    <div className="flex w-full  h-screen overflow-auto -5">
+    <div className="flex w-full  h-screen overflow-auto -5 ">
       <Sidebar />
       <div className="p-1 w-full overflow-auto mx-5">
         <div className=" w-full">
@@ -24,7 +24,7 @@ const PageWrapper = ({ title, children, createNewOnclick }: IProps) => {
             </button>
           )}
         </div>
-        {children}
+        <div className="mt-20">{children}</div>
       </div>
     </div>
   );

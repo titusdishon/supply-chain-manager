@@ -7,7 +7,7 @@ import {
   LoginFailureAction,
 } from "../../redux/actions/auth-actions";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SuccessAlert, ErrorAlert } from "../shared/alerts";
 
@@ -89,12 +89,6 @@ const Login = () => {
         >
           Login
         </button>
-        <p className="mt-6">
-          Do not have an account?{" "}
-          <Link to="/register" className="text-blue-500 hover:underline">
-            Register
-          </Link>
-        </p>
       </form>
     </div>
   );

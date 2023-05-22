@@ -23,6 +23,7 @@ describe("User controller", () => {
         role: UserRole.ADMIN,
       };
       const response: any = await createUser(user);
+      console.log("let me know", response);
       const { username, role, email } = response.body.user;
       expect(response.status).toBe(201);
       expect(username).toBe(user.username);

@@ -1,16 +1,16 @@
 import { createStore, combineReducers, Store } from "redux";
-import { AuthState, OrdersState } from "../types";
-import { ordersReducer } from "../reducers/order-reducers";
+import { AuthState, CartState } from "../types";
+import { cartReducer } from "../reducers/cart-reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { authReducer } from "../reducers/auth-reducers";
 
 export interface RootState {
-  order: OrdersState;
+  cart: CartState;
   user: AuthState;
 }
 
 const rootReducer = combineReducers<RootState>({
-  order: ordersReducer,
+  cart: cartReducer,
   user: authReducer,
 });
 
