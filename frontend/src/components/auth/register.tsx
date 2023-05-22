@@ -1,13 +1,6 @@
 import { useForm } from "react-hook-form";
 import { UserRole } from "../../redux/types";
-import {
-  CreateUserFailureAction,
-  CreateUserRequestAction,
-  CreateUserSuccessAction,
-  UserActionTypes,
-} from "../../redux/actions/user-actions";
-import axios, { AxiosResponse } from "axios";
-import { useDispatch } from "react-redux";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ErrorAlert, SuccessAlert } from "../shared/alerts";
@@ -31,29 +24,16 @@ const Registration = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IRegistrationFormData>();
-  const dispatch = useDispatch();
   const onSubmit = async (data: IRegistrationFormData) => {
-    dispatch<CreateUserRequestAction>({
-      type: UserActionTypes.CREATE_USER_REQUEST,
-      payload: data,
-    });
     const userToken = localStorage.getItem("token");
 
     try {
-      const response: AxiosResponse = await axios.post(
-        `http://localhost:8000/auth/register`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-
-      dispatch<CreateUserSuccessAction>({
-        type: UserActionTypes.CREATE_USER_SUCCESS,
-        payload: response.data,
+      await axios.post(`http://localhost:8000/auth/register`, data, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
       });
+
       setSuccessMessage("Success! Your have created an account.");
 
       setTimeout(() => {
@@ -63,10 +43,6 @@ const Registration = () => {
       setErrorMessage(
         "Failed! We could not complete your request, try again later."
       );
-      dispatch<CreateUserFailureAction>({
-        type: UserActionTypes.CREATE_USER_FAILURE,
-        payload: error.message,
-      });
     }
   };
 

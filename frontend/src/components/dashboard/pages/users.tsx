@@ -5,12 +5,6 @@ import dayjs from "dayjs";
 
 import { useDispatch } from "react-redux";
 import Table from "../../shared/table";
-import {
-  FetchUsersFailureAction,
-  FetchUsersRequestAction,
-  FetchUsersSuccessAction,
-  UserActionTypes,
-} from "../../../redux/actions/user-actions";
 import PageWrapper from "./page-wrapper";
 import { ErrorAlert } from "../../shared/alerts";
 import { useNavigate } from "react-router-dom";
@@ -72,10 +66,6 @@ const Users = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      dispatch<FetchUsersRequestAction>({
-        type: UserActionTypes.FETCH_USERS_REQUEST,
-      });
-
       try {
         const response: AxiosResponse = await axios.get(
           `http://localhost:8000/auth/users`,
@@ -86,16 +76,9 @@ const Users = () => {
           }
         );
 
-        dispatch<FetchUsersSuccessAction>({
-          type: UserActionTypes.FETCH_USERS_SUCCESS,
-          payload: response.data.users,
-        });
         setUsers(response.data.users);
       } catch (error: any) {
-        dispatch<FetchUsersFailureAction>({
-          type: UserActionTypes.FETCH_USERS_FAILURE,
-          payload: error.message,
-        });
+        console.log("Error", error);
       }
     };
 

@@ -1,15 +1,9 @@
 import { useForm } from "react-hook-form";
 
-import axios, { AxiosResponse } from "axios";
-import { useDispatch } from "react-redux";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  AddProductFailureAction,
-  AddProductRequestAction,
-  AddProductSuccessAction,
-  ProductsActionTypes,
-} from "../../../redux/actions/product-actions";
+
 import { SuccessAlert, ErrorAlert } from "../../shared/alerts";
 import PageWrapper from "./page-wrapper";
 import { CURRENCIES } from "../../../redux/types";
@@ -33,31 +27,17 @@ const CreateProduct = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IProductFormData>();
-  const dispatch = useDispatch();
   const onSubmit = async (data: IProductFormData) => {
-    dispatch<AddProductRequestAction>({
-      type: ProductsActionTypes.ADD_PRODUCT_REQUEST,
-      payload: data,
-    });
     const userToken = localStorage.getItem("token");
 
     try {
-      const response: AxiosResponse = await axios.post(
-        `http://localhost:8000/products`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
-
-      dispatch<AddProductSuccessAction>({
-        type: ProductsActionTypes.ADD_PRODUCT_SUCCESS,
-        payload: response.data,
+      await axios.post(`http://localhost:8000/products`, data, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
       });
-      setSuccessMessage("Success! Your have created a new product.");
 
+      setSuccessMessage("Success! Your have created a new product.");
       setTimeout(() => {
         navigate("/home/products");
       }, 1000);
@@ -65,10 +45,6 @@ const CreateProduct = () => {
       setErrorMessage(
         "Failed! We could not complete your request, try again later."
       );
-      dispatch<AddProductFailureAction>({
-        type: ProductsActionTypes.ADD_PRODUCT_FAILURE,
-        payload: error.message,
-      });
     }
   };
 

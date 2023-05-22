@@ -1,17 +1,17 @@
 import { createStore, combineReducers, Store } from "redux";
-import { OrdersState, ProductsState } from "../types";
-import { productsReducer } from "../reducers/product-reducers";
+import { AuthState, OrdersState } from "../types";
 import { ordersReducer } from "../reducers/order-reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { authReducer } from "../reducers/auth-reducers";
 
 export interface RootState {
   order: OrdersState;
-  product: ProductsState;
+  user: AuthState;
 }
 
 const rootReducer = combineReducers<RootState>({
   order: ordersReducer,
-  product: productsReducer,
+  user: authReducer,
 });
 
 const store: Store<RootState> = createStore(rootReducer, composeWithDevTools());

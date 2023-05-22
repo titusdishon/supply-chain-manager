@@ -2,13 +2,6 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Column } from "react-table";
 import dayjs from "dayjs";
-import {
-  FetchProductsRequestAction,
-  FetchProductsFailureAction,
-  FetchProductsSuccessAction,
-  ProductsActionTypes,
-} from "../../../redux/actions/product-actions";
-import { useDispatch } from "react-redux";
 import Table from "../../shared/table";
 import PageWrapper from "./page-wrapper";
 import { ErrorAlert } from "../../shared/alerts";
@@ -26,7 +19,6 @@ interface IProduct {
   updatedAt: string;
 }
 const Products = () => {
-  const dispatch = useDispatch();
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const navigate = useNavigate();
 
@@ -79,26 +71,15 @@ const Products = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      dispatch<FetchProductsRequestAction>({
-        type: ProductsActionTypes.FETCH_PRODUCTS_REQUEST,
-      });
-
       try {
         const response: AxiosResponse = await axios.get(
           `http://localhost:8000/products`
         );
         const { data } = response.data;
 
-        dispatch<FetchProductsSuccessAction>({
-          type: ProductsActionTypes.FETCH_PRODUCTS_SUCCESS,
-          payload: response.data,
-        });
         setProducts(data);
       } catch (error: any) {
-        dispatch<FetchProductsFailureAction>({
-          type: ProductsActionTypes.FETCH_PRODUCTS_FAILURE,
-          payload: error.message,
-        });
+        console.log("Error", error);
       }
     };
 
