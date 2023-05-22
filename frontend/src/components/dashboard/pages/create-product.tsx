@@ -65,7 +65,9 @@ const CreateProduct = () => {
               className="w-full border rounded py-2 px-3"
               {...register("productName", { required: true })}
             />
-            {errors.productName && <span>This field is required</span>}
+            {errors.productName && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2">Quantity </label>
@@ -74,7 +76,9 @@ const CreateProduct = () => {
               className="w-full border rounded py-2 px-3"
               {...register("quantity", { required: true })}
             />
-            {errors.quantity && <span>This field is required</span>}
+            {errors.quantity && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2">Batch Number </label>
@@ -83,7 +87,9 @@ const CreateProduct = () => {
               className="w-full border rounded py-2 px-3"
               {...register("batchNumber", { required: true })}
             />
-            {errors.batchNumber && <span>This field is required</span>}
+            {errors.batchNumber && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2">Price </label>
@@ -92,7 +98,9 @@ const CreateProduct = () => {
               className="w-full border rounded py-2 px-3"
               {...register("price", { required: true })}
             />
-            {errors.price && <span>This field is required</span>}
+            {errors.price && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2">Currency</label>
@@ -103,7 +111,9 @@ const CreateProduct = () => {
               <option value={CURRENCIES.USD}>USD</option>
               <option value={CURRENCIES.EURO}>EURO</option>
             </select>
-            {errors.currency && <span>This field is required</span>}
+            {errors.currency && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <div className="mb-4">
             <label className="block mb-2">Image Url </label>
@@ -112,7 +122,9 @@ const CreateProduct = () => {
               className="w-full border rounded py-2 px-3"
               {...register("imageUrl", { required: true })}
             />
-            {errors.imageUrl && <span>This field is required</span>}
+            {errors.imageUrl && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <button
             type="submit"

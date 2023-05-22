@@ -72,7 +72,9 @@ const Login = () => {
             className="w-full border rounded py-2 px-3"
             {...register("username", { required: true })}
           />
-          {errors.username && <span>This field is required</span>}
+          {errors.username && (
+            <span className="text-red-800">This field is required</span>
+          )}
         </div>
         <div className="mb-4">
           <label className="block mb-2">Password</label>
@@ -81,7 +83,9 @@ const Login = () => {
             className="w-full border rounded py-2 px-3"
             {...register("password", { required: true })}
           />
-          {errors.password && <span>This field is required</span>}
+          {errors.password && (
+            <span className="text-red-800">This field is required</span>
+          )}
         </div>
         <button
           type="submit"

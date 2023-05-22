@@ -111,7 +111,9 @@ const Checkout = () => {
               className="w-full border rounded py-2 px-3"
               {...register("customerName", { required: true })}
             />
-            {errors.customerName && <span>This field is required</span>}
+            {errors.customerName && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
 
           <div className="mb-4">
@@ -121,20 +123,22 @@ const Checkout = () => {
               className="w-full border rounded py-2 px-3"
               {...register("customerEmail", { required: true })}
             />
-            {errors.customerEmail && <span>This field is required</span>}
+            {errors.customerEmail && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
           <div className="mb-4">
-            <label className="block mb-2">Order Status </label>
-            <select
+            <label className="block mb-2">Address </label>
+            <input
+              type="text-area"
               className="w-full border rounded py-2 px-3"
               {...register("address", { required: true })}
-            >
-              <option value={OrderStatus.PENDING}>Pending</option>
-              <option value={OrderStatus.IN_PROGRESS}>In Progress</option>
-              <option value={OrderStatus.FULFILLED}>Fulfilled</option>
-            </select>
-            {errors.address && <span>This field is required</span>}
+            />
+            {errors.address && (
+              <span className="text-red-800">This field is required</span>
+            )}
           </div>
+
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"

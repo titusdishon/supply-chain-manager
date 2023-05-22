@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Column } from "react-table";
 import dayjs from "dayjs";
-
-import { useDispatch } from "react-redux";
 import Table from "../../shared/table";
 import PageWrapper from "./page-wrapper";
 import { ErrorAlert } from "../../shared/alerts";
@@ -18,7 +16,6 @@ interface IUser {
   updatedAt: string;
 }
 const Users = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[] | null>(null);
 
@@ -50,14 +47,9 @@ const Users = () => {
       Header: "Actions",
       Cell: () => (
         <div className="flex flex-row">
-          <div className="flex flex-row">
-            <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mx-4">
-              Delete
-            </button>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
-              Edit
-            </button>
-          </div>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
+            Edit
+          </button>
         </div>
       ),
     },

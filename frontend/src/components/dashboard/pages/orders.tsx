@@ -45,6 +45,20 @@ const Orders = () => {
       Header: "Address",
       accessor: "address",
     },
+    {
+      Header: "Status",
+      accessor: "status",
+      Cell: ({ value }) => (
+        <span
+          className={`rounded p-1 ${
+            (value === "pending" && "bg-slate-400 text-black ") ||
+            (value === "fulfilled" && "bg-green-400 text-white")
+          }`}
+        >
+          {value}
+        </span>
+      ),
+    },
 
     {
       Header: "updated At",
@@ -94,12 +108,7 @@ const Orders = () => {
   }, []);
 
   return (
-    <PageWrapper
-      title="Orders"
-      createNewOnclick={() => {
-        console.log("create new");
-      }}
-    >
+    <PageWrapper title="Orders">
       {orders && !orders.length && (
         <ErrorAlert message="There are no orders found!" />
       )}
