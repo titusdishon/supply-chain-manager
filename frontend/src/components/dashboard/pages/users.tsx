@@ -18,6 +18,7 @@ interface IUser {
 const Users = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<IUser[] | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const columns: Column<IUser>[] = [
     {
@@ -75,7 +76,10 @@ const Users = () => {
 
         setUsers(response.data.users);
       } catch (error: any) {
-        console.log("Error", error);
+        setErrorMessage("An error occurred while fetching orders");
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 1000);
       }
     };
 
@@ -93,6 +97,7 @@ const Users = () => {
       {users && !users.length && (
         <ErrorAlert message="There are no registered users" />
       )}
+      {errorMessage && <ErrorAlert message={errorMessage} />}
       {users && <Table columns={columns} data={users} />}
     </PageWrapper>
   );

@@ -151,7 +151,10 @@ const Products = () => {
 
         setProducts(data);
       } catch (error: any) {
-        console.log("Error", error);
+        setErrorMessage("An error occurred while fetching products");
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 1000);
       }
     };
 

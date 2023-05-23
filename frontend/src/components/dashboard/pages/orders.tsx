@@ -27,6 +27,7 @@ interface IOrder {
 }
 const Orders = () => {
   const [orders, setOrders] = useState<IOrder[] | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const columns: Column<IOrder>[] = [
     {
@@ -97,7 +98,10 @@ const Orders = () => {
         const { data } = response;
         setOrders(data);
       } catch (error: any) {
-        console.log("Orders not fetched");
+        setErrorMessage("An error occurred while fetching orders");
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 1000);
       }
     };
 
@@ -112,6 +116,7 @@ const Orders = () => {
       {orders && !orders.length && (
         <ErrorAlert message="There are no orders found!" />
       )}
+      {errorMessage && <ErrorAlert message={errorMessage} />}
       {orders && <Table columns={columns} data={orders} />}
     </PageWrapper>
   );
