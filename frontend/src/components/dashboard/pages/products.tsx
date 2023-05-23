@@ -190,23 +190,22 @@ const Products = () => {
         <div className="mb-2">{`${cart.length} Item${
           cart.length === 1 ? "" : "s"
         } already selected.`}</div>
-        <div className="mt-5">
+        <div className="flex flex-col items-center mt-5">
           <Link
             to="/order/checkout"
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-3 w-full md:w-auto"
           >
             Proceed to checkout
           </Link>
-        </div>
-        <div className="mt-5">
           <button
             onClick={removeItemsFromCart}
-            className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+            className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 w-full md:w-auto"
           >
             Reset items
           </button>
         </div>
       </div>
+
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

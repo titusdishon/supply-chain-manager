@@ -259,7 +259,8 @@ npm run test
    ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/products-cart.png)
 
 4. Orders.
-
+   -> Add product to order
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/add-product-to-order.png)
    -> Orders create
    ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/order-create.png)
    -> Orders list
@@ -275,6 +276,18 @@ npm run test
 6. Inventory.
 
    ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/inventory.png)
+
+7. Error doing a get request.
+
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/error.png)
+
+8. Update product.
+
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/update-product.png)
+
+9. Update order.
+
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/update-order.png)
 
 ## Below are the APIs incase you would like to use postman
 
