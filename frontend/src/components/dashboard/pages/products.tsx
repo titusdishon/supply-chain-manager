@@ -15,6 +15,8 @@ import {
 } from "../../../redux/actions/cart-actions";
 import { RiShoppingCart2Fill } from "react-icons/ri";
 import { RootState } from "../../../redux/store/store";
+import Modal from "../../shared/modal";
+import { useForm } from "react-hook-form";
 
 interface IProduct {
   batchNumber: string;
@@ -32,21 +34,46 @@ const Products = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cart, error } = useSelector((state: RootState) => state.cart);
+  const {
+    register,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm();
+  const [product, setProduct] = useState<IProduct | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const quantity = watch("quantity");
+  const [isModalOpen, setModalOpen] = useState(false);
 
-  const addProduct = (product: IProduct) => {
-    const finalProduct = {
-      batchNumber: product.batchNumber,
-      currency: product.currency,
-      id: product.id,
-      imageUrl: product.imageUrl,
-      price: product.price,
-      productName: product.productName,
-      quantity: 1,
-    };
-    dispatch<AddToCartRequestAction>({
-      type: CartActionTypes.ADD_TO_CART,
-      payload: finalProduct,
-    });
+  const openModal = (product: IProduct) => {
+    setProduct(product);
+    setValue("quantity", product.quantity);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    console.log(quantity);
+    if (quantity && product && product.quantity > quantity) {
+      setErrorMessage(null);
+      const finalProduct = {
+        batchNumber: product.batchNumber,
+        currency: product.currency,
+        id: product.id,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        productName: product.productName,
+        quantity: quantity,
+      };
+      dispatch<AddToCartRequestAction>({
+        type: CartActionTypes.ADD_TO_CART,
+        payload: finalProduct,
+      });
+      setModalOpen(false);
+    } else {
+      setErrorMessage(
+        "Quantity can only be less than available for this product"
+      );
+    }
   };
 
   const removeItemsFromCart = () => {
@@ -98,7 +125,7 @@ const Products = () => {
         <div className="flex flex-row">
           <button
             className="bg-green-500 mr-4 text-white py-2 px-4 rounded hover:bg-green-600 "
-            onClick={() => addProduct(values.row.original)}
+            onClick={() => openModal(values.row.original)}
           >
             <RiShoppingCart2Fill />
           </button>
@@ -173,6 +200,26 @@ const Products = () => {
           </button>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onCancel={() => setModalOpen(false)}
+      >
+        {errorMessage && <ErrorAlert message={errorMessage} />}
+        <div className="mb-4">
+          <label className="block mb-2">
+            Desired quantity of {product?.productName}{" "}
+          </label>
+          <input
+            type="number"
+            className="w-full border rounded py-2 px-3"
+            {...register("quantity", { required: true, max: quantity })}
+          />
+          {errors.quantity && (
+            <span className="text-red-800">This field is required</span>
+          )}
+        </div>
+      </Modal>
     </PageWrapper>
   );
 };

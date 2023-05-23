@@ -3,10 +3,16 @@ import React, { ReactNode, useEffect } from "react";
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  onCancel: () => void;
   children: ReactNode;
 };
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  onCancel,
+  children,
+}) => {
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -31,12 +37,20 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     >
       <div className="bg-white w-1/2 p-4 rounded-lg shadow-lg">
         {isOpen && children}
-        <button
-          className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 mt-4"
-          onClick={onClose}
-        >
-          Close
-        </button>
+        <div>
+          <button
+            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 mt-4"
+            onClick={onClose}
+          >
+            submit
+          </button>
+          <button
+            className="bg-red-500 float-right text-white py-2 px-4 rounded hover:bg-red-600 mt-4"
+            onClick={onCancel}
+          >
+            cancel
+          </button>
+        </div>
       </div>
     </div>
   );

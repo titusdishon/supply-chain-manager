@@ -5,8 +5,9 @@ import Modal from "./modal";
 describe("Modal", () => {
   it('renders modal content and closes when "Close" button is clicked', () => {
     const handleClose = jest.fn();
+    const handleCancel = jest.fn();
     render(
-      <Modal isOpen={true} onClose={handleClose}>
+      <Modal isOpen={true} onClose={handleClose} onCancel={handleCancel}>
         <h2>Modal Content</h2>
         <p>This is the content of the modal.</p>
       </Modal>
@@ -26,7 +27,7 @@ describe("Modal", () => {
 
   it("does not render modal content when isOpen is false", () => {
     render(
-      <Modal isOpen={false} onClose={() => {}}>
+      <Modal isOpen={false} onClose={() => {}} onCancel={() => {}}>
         <h2>Modal Content</h2>
         <p>This is the content of the modal.</p>
       </Modal>

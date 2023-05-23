@@ -5,13 +5,7 @@ import dayjs from "dayjs";
 import Table from "../../shared/table";
 import PageWrapper from "./page-wrapper";
 import { ErrorAlert } from "../../shared/alerts";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  CartActionTypes,
-  ResetCartErrorRequestAction,
-} from "../../../redux/actions/cart-actions";
-import { RootState } from "../../../redux/store/store";
+import { useNavigate } from "react-router-dom";
 
 interface IProduct {
   batchNumber: string;
@@ -27,8 +21,6 @@ interface IProduct {
 const Inventory = () => {
   const [products, setProducts] = useState<IProduct[] | null>(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { cart, error } = useSelector((state: RootState) => state.cart);
 
   const columns: Column<IProduct>[] = [
     {
@@ -102,17 +94,6 @@ const Inventory = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        dispatch<ResetCartErrorRequestAction>({
-          type: CartActionTypes.RESET_CART_ERROR,
-        });
-      }, 1000);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
-
   const handleCreateNewClick = () => {
     navigate("/home/create-products");
   };
@@ -122,22 +103,7 @@ const Inventory = () => {
       {products && !products.length && (
         <ErrorAlert message="There are no products found !" />
       )}
-      {error && <ErrorAlert message={error} />}
       {products && <Table columns={columns} data={products} />}
-
-      <div className={`mt-10 float-right ${cart.length === 0 ? "hidden" : ""}`}>
-        <div className="mb-2">{`${cart.length} Item${
-          cart.length === 1 ? "" : "s"
-        } already selected.`}</div>
-        <div className="mt-5">
-          <Link
-            to="/order/checkout"
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
-            Proceed to checkout
-          </Link>
-        </div>
-      </div>
     </PageWrapper>
   );
 };
