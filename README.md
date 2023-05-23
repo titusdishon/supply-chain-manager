@@ -237,3 +237,41 @@ npm run test
 - You can use postman or the frontend application to interact with the application
 - We will use the frontend here
   Open the frontend [url](http://localhost:3000)
+
+## Pages
+
+1. Login.
+
+   -> Login desktop
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/login.png)
+   -> login mobile
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/login-mobile.png)
+
+2. Home
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/home.png)
+3. Products.
+
+   -> Products list
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/products.png)
+   -> Product create
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/product-create.png)
+   -> Products with cart
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/products-cart.png)
+
+4. Orders.
+
+   -> Orders create
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/order-create.png)
+   -> Orders list
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/orders.png)
+
+5. Users.
+
+   -> Create User
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/create-user.png)
+   -> List Users
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/users.png)
+
+6. Inventory.
+
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/products.png)
