@@ -85,7 +85,11 @@ export const getUserById = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "bad request" });
   }
   try {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: {
+        exclude: ["password"],
+      },
+    });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -99,7 +103,11 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: {
+        exclude: ["password"],
+      },
+    });
     res.status(200).json({ users });
   } catch (error) {
     console.error("Error retrieving users:", error);

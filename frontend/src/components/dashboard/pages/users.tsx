@@ -45,9 +45,14 @@ const Users = () => {
     },
     {
       Header: "Actions",
-      Cell: () => (
+      Cell: (value: any) => (
         <div className="flex flex-row">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 "
+            onClick={() =>
+              navigate(`/users/create-or-update/${value.row.original.id}`)
+            }
+          >
             Edit
           </button>
         </div>
@@ -80,7 +85,7 @@ const Users = () => {
   }, []);
 
   const handleCreateNewClick = () => {
-    navigate("/users/register");
+    navigate("/users/create-or-update");
   };
 
   return (

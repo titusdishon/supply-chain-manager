@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form";
 
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
+import axios, { AxiosResponse } from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { SuccessAlert, ErrorAlert } from "../../shared/alerts";
 import PageWrapper from "./page-wrapper";
 import { CURRENCIES } from "../../../redux/types";
@@ -17,27 +16,38 @@ interface IProductFormData {
   productName: string;
 }
 
-const CreateProduct = () => {
+const CreateOrUpdateProduct = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IProductFormData>();
   const onSubmit = async (data: IProductFormData) => {
     const userToken = localStorage.getItem("token");
 
     try {
-      await axios.post(`http://localhost:8000/products`, data, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      if (!id) {
+        await axios.post(`http://localhost:8000/products`, data, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        setSuccessMessage("Success! Your have created a new product.");
+      } else {
+        await axios.put(`http://localhost:8000/products/${id}`, data, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        setSuccessMessage("Success!");
+      }
 
-      setSuccessMessage("Success! Your have created a new product.");
       setTimeout(() => {
         navigate("/home/products");
       }, 1000);
@@ -48,6 +58,31 @@ const CreateProduct = () => {
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      const fetchProduct = async () => {
+        try {
+          const response: AxiosResponse = await axios.get(
+            `http://localhost:8000/products/${id}`
+          );
+          const data = response.data;
+          setValue("batchNumber", data.batchNumber);
+          setValue("currency", data.currency);
+          setValue("productName", data.productName);
+          setValue("price", data.price);
+          setValue("quantity", data.quantity);
+          setValue("imageUrl", data.imageUrl);
+        } catch (error: any) {
+          console.log("Error", error);
+        }
+      };
+
+      return () => {
+        fetchProduct();
+      };
+    }
+  }, []);
+
   return (
     <PageWrapper>
       <div className="flex flex-col justify-center items-center min-h-screen">
@@ -57,7 +92,9 @@ const CreateProduct = () => {
         >
           {successMessage && <SuccessAlert message={successMessage} />}
           {errorMessage && <ErrorAlert message={errorMessage} />}
-          <h2 className="text-2xl font-bold mb-4">Create Product</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            {id ? "Update" : "Create"} Product
+          </h2>
           <div className="mb-4">
             <label className="block mb-2">Product Name </label>
             <input
@@ -130,7 +167,7 @@ const CreateProduct = () => {
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
           >
-            Register
+            {id ? "Update" : "Create"}
           </button>
         </form>
       </div>
@@ -138,4 +175,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateOrUpdateProduct;

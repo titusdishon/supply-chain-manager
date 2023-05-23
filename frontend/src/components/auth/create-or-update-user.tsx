@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { UserRole } from "../../redux/types";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { ErrorAlert, SuccessAlert } from "../shared/alerts";
 import PageWrapper from "../dashboard/pages/page-wrapper";
 
@@ -18,10 +18,12 @@ const Registration = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IRegistrationFormData>();
   const onSubmit = async (data: IRegistrationFormData) => {
@@ -46,6 +48,36 @@ const Registration = () => {
     }
   };
 
+  useEffect(() => {
+    const userToken = localStorage.getItem("token");
+
+    if (id) {
+      const fetchProduct = async () => {
+        try {
+          const response: AxiosResponse = await axios.get(
+            `http://localhost:8000/auth/users/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${userToken}`,
+              },
+            }
+          );
+          const data = response.data.user;
+          setValue("email", data.email);
+          setValue("isActive", data.isActive);
+          setValue("role", data.role);
+          setValue("username", data.username);
+        } catch (error: any) {
+          console.log("Error", error);
+        }
+      };
+
+      return () => {
+        fetchProduct();
+      };
+    }
+  }, []);
+
   return (
     <PageWrapper>
       <div className="flex flex-col justify-center items-center min-h-screen">
@@ -55,7 +87,9 @@ const Registration = () => {
         >
           {successMessage && <SuccessAlert message={successMessage} />}
           {errorMessage && <ErrorAlert message={errorMessage} />}
-          <h2 className="text-2xl font-bold mb-4">Registration</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            {id ? "Update" : "Create"} User
+          </h2>
           <div className="mb-4">
             <label className="block mb-2">Username</label>
             <input
@@ -65,15 +99,17 @@ const Registration = () => {
             />
             {errors.username && <span>This field is required</span>}
           </div>
-          <div className="mb-4">
-            <label className="block mb-2">Password</label>
-            <input
-              type="password"
-              className="w-full border rounded py-2 px-3"
-              {...register("password", { required: true })}
-            />
-            {errors.password && <span>This field is required</span>}
-          </div>
+          {!id && (
+            <div className="mb-4">
+              <label className="block mb-2">Password</label>
+              <input
+                type="password"
+                className="w-full border rounded py-2 px-3"
+                {...register("password", { required: true })}
+              />
+              {errors.password && <span>This field is required</span>}
+            </div>
+          )}
           <div className="mb-4">
             <label className="block mb-2">Email</label>
             <input
@@ -102,6 +138,12 @@ const Registration = () => {
             </select>
             {errors.role && <span>This field is required</span>}
           </div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          >
+            {id ? "Update User" : "Create"}
+          </button>
         </form>
       </div>
     </PageWrapper>

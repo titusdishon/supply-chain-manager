@@ -44,7 +44,6 @@ const Products = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const quantity = watch("quantity");
   const [isModalOpen, setModalOpen] = useState(false);
-
   const openModal = (product: IProduct) => {
     setProduct(product);
     setValue("quantity", product.quantity);
@@ -129,7 +128,12 @@ const Products = () => {
           >
             <RiShoppingCart2Fill />
           </button>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 ">
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 "
+            onClick={() => {
+              navigate(`/home/create-products/${values.row.original.id}`);
+            }}
+          >
             Edit
           </button>
         </div>

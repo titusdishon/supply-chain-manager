@@ -93,31 +93,5 @@ describe("User Update controller", () => {
       );
       expect(response.status).toBe(401);
     });
-    // it("Should return 404 if user does not exist ", async () => {
-    //   const user = {
-    //     username: crypto.randomBytes(6).toString("hex"),
-    //     password: "geek36",
-    //     email: `${crypto.randomBytes(6).toString("hex")}@gmail.com`,
-    //     isActive: true,
-    //     role: UserRole.ADMIN,
-    //   };
-    //   const token = await createLoginUpdateUser().loginUser(
-    //     user.username,
-    //     user.password
-    //   );
-    //   const updatedUser = {
-    //     username: crypto.randomBytes(6).toString("hex"),
-    //     password: "geek36",
-    //     email: `${crypto.randomBytes(6).toString("hex")}@gmail.com`,
-    //     isActive: true,
-    //     role: UserRole.ADMIN,
-    //   };
-    //   const response = await createLoginUpdateUser().updateUser(
-    //     updatedUser,
-    //     null,
-    //     token
-    //   );
-    //   expect(response.status).toBe(404);
-    // });
   });
 });

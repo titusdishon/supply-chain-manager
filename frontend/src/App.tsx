@@ -5,14 +5,16 @@ import { lazy, Suspense } from "react";
 import ProtectedRoute from "./utils/protected-routes";
 import PageWrapper from "./components/dashboard/pages/page-wrapper";
 const Login = lazy(() => import("./components/auth/login"));
-const Registration = lazy(() => import("./components/auth/register"));
+const CreateOrUpdateUser = lazy(
+  () => import("./components/auth/create-or-update-user")
+);
 const Home = lazy(() => import("./components/dashboard/home"));
 const Orders = lazy(() => import("./components/dashboard/pages/orders"));
 const Products = lazy(() => import("./components/dashboard/pages/products"));
 const Inventory = lazy(() => import("./components/dashboard/pages/inventory"));
 const Users = lazy(() => import("./components/dashboard/pages/users"));
-const CreateProduct = lazy(
-  () => import("./components/dashboard/pages/create-product")
+const CreateOrUpdateProduct = lazy(
+  () => import("./components/dashboard/pages/create-update-product")
 );
 const Checkout = lazy(() => import("./components/dashboard/pages/checkout"));
 
@@ -72,7 +74,7 @@ const App = () => {
             }
           />
           <Route
-            path="/home/create-products"
+            path="/home/create-products/:id?"
             element={
               <Suspense
                 fallback={
@@ -82,7 +84,7 @@ const App = () => {
                 }
               >
                 <ProtectedRoute>
-                  <CreateProduct />
+                  <CreateOrUpdateProduct />
                 </ProtectedRoute>
               </Suspense>
             }
@@ -120,7 +122,7 @@ const App = () => {
             }
           />
           <Route
-            path="/users/register"
+            path="/users/create-or-update/:id?"
             element={
               <Suspense
                 fallback={
@@ -130,7 +132,7 @@ const App = () => {
                 }
               >
                 <ProtectedRoute>
-                  <Registration />
+                  <CreateOrUpdateUser />
                 </ProtectedRoute>
               </Suspense>
             }
