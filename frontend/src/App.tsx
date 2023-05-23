@@ -1,86 +1,105 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./components/auth/login";
-import Registration from "./components/auth/register";
 import store from "./redux/store/store";
 import { Provider } from "react-redux";
-import Home from "./components/dashboard/home";
-import Orders from "./components/dashboard/pages/orders";
-import Products from "./components/dashboard/pages/products";
-import Inventory from "./components/dashboard/pages/inventory";
-import Users from "./components/dashboard/pages/users";
+import { lazy, Suspense } from "react";
 import ProtectedRoute from "./utils/protected-routes";
-import CreateProduct from "./components/dashboard/pages/create-product";
-import Checkout from "./components/dashboard/pages/checkout";
+const Login = lazy(() => import("./components/auth/login"));
+const Registration = lazy(() => import("./components/auth/register"));
+const Home = lazy(() => import("./components/dashboard/home"));
+const Orders = lazy(() => import("./components/dashboard/pages/orders"));
+const Products = lazy(() => import("./components/dashboard/pages/products"));
+const Inventory = lazy(() => import("./components/dashboard/pages/inventory"));
+const Users = lazy(() => import("./components/dashboard/pages/users"));
+const CreateProduct = lazy(
+  () => import("./components/dashboard/pages/create-product")
+);
+const Checkout = lazy(() => import("./components/dashboard/pages/checkout"));
 
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
 
           <Route
             path="/home"
             element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/home/orders"
             element={
-              <ProtectedRoute>
-                <Orders />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/home/products"
             element={
-              <ProtectedRoute>
-                <Products />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Products />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/home/create-products"
             element={
-              <ProtectedRoute>
-                <CreateProduct />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <CreateProduct />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/home/inventory"
             element={
-              <ProtectedRoute>
-                <Inventory />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Inventory />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/home/users"
             element={
-              <ProtectedRoute>
-                <Users />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Users />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/users/register"
             element={
-              <ProtectedRoute>
-                <Registration />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Registration />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             path="/order/checkout"
             element={
-              <ProtectedRoute>
-                <Checkout />
-              </ProtectedRoute>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              </Suspense>
             }
           />
         </Routes>

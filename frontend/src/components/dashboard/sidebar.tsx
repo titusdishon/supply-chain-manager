@@ -62,7 +62,7 @@ const Sidebar = () => {
       title: "Logout",
       icon: RiLogoutBoxRFill,
       onClick: (path: string) => logout(path),
-      path: "login",
+      path: "",
     },
   ];
 

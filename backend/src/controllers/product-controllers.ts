@@ -18,6 +18,15 @@ export const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+// Get all products
+export const getAllProductsInventory = async (req: Request, res: Response) => {
+  try {
+    const products = await Product.findAll();
+    res.status(200).json({ message: "success", data: products });
+  } catch (error) {
+    res.status(500).json({ error: "Error retrieving products" });
+  }
+};
 // Get a single product by ID
 export const getProductById: RequestHandler = async (
   req: Request,

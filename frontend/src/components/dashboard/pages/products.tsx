@@ -74,6 +74,11 @@ const Products = () => {
     },
 
     {
+      Header: "Price",
+      accessor: "price",
+    },
+
+    {
       Header: "Currency",
       accessor: "currency",
     },

@@ -274,4 +274,22 @@ npm run test
 
 6. Inventory.
 
-   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/products.png)
+   ![Tests](https://github.com/titusdishon/supply-chain-manager/blob/main/docs/inventory.png)
+
+## Below are the APIs incase you would like to use postman
+
+```json
+ {
+  GET/POST: "http://localhost:8000/orders",
+  GET_BY_ID: "http://localhost:8000/orders/:id",
+  GET_BY_ID: "http://localhost:8000/orders/orders-progress/:id",
+  GET/POST: "http://localhost:8000/products",
+  GET: "http://localhost:8000/products/inventory",
+  GET_BY_ID: "http://localhost:8000/products/:id",
+  POST:  "http://localhost:8000/auth/register",
+  GET/POST: "http://localhost:8000/auth/users",
+  GET_BY_ID:   "http://localhost:8000/auth/users/:id",
+  POST: "http://localhost:8000/auth/login",
+  UPDATE_BY_ID:   "http://localhost:8000/auth/update/:id"
+ }
+```

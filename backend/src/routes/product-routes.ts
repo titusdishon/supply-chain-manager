@@ -5,12 +5,14 @@ import {
   getAllProducts,
   updateProduct,
   deleteProduct,
+  getAllProductsInventory,
 } from "../controllers/product-controllers";
 import { authenticate } from "../utils/auth-middlewares";
 
 const productRouter = express.Router();
 
 productRouter.post("/", authenticate, createProduct);
+productRouter.get("/inventory", authenticate, getAllProductsInventory);
 
 productRouter.get("/:id", getProductById);
 
