@@ -7,10 +7,14 @@ import { useState } from "react";
 import { SuccessAlert, ErrorAlert } from "../../shared/alerts";
 import PageWrapper from "./page-wrapper";
 import { OrderStatus, Product } from "../../../redux/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store/store";
 import { Column } from "react-table";
 import Table from "../../shared/table";
+import {
+  ResetCartErrorRequestAction,
+  CartActionTypes,
+} from "../../../redux/actions/cart-actions";
 
 interface IOrderFormData {
   status: OrderStatus;
@@ -54,9 +58,14 @@ const Checkout = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IOrderFormData>();
+  const dispatch = useDispatch();
 
+  const restCart = () => {
+    dispatch<ResetCartErrorRequestAction>({
+      type: CartActionTypes.RESET_CART_ERROR,
+    });
+  };
   const onSubmit = async (data: IOrderFormData) => {
-    console.log("products", cart);
     const userToken = localStorage.getItem("token");
     const product = {
       status: OrderStatus.PENDING,
@@ -74,6 +83,7 @@ const Checkout = () => {
         });
 
         setSuccessMessage("Success! Your have created a new order.");
+        restCart();
         setTimeout(() => {
           navigate("/home/orders");
         }, 1000);
